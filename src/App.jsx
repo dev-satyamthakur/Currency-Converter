@@ -1,10 +1,27 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import useCurrencyInfo from './hooks/useCurrencyInfo';
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  const [amount, setAmount] = useState(0);
+  const [fromCurrency, setFromCurrency] = useState('usd');
+  const [toCurrency, setToCurrency] = useState('inr');
+  const [convertedAmount, setConvertedAmount] = useState(0);
+
+  const currencyInfo = useCurrencyInfo(fromCurrency);
+  const options = Object.keys(currencyInfo);
+
+  const convert = () => {
+    setConvertedAmount(amount * currencyInfo[toCurrency]);
+  }
+
+  const swap = () => {
+    setFromCurrency(toCurrency);
+    setToCurrency(fromCurrency);
+    setConvertedAmount(amount);
+    setAmount(convertedAmount);
+  }
 
   return (
     <div className='w-full h-screen flex flex-wrap justify-center items-center bg-cover bg-no-repeat' 
